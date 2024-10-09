@@ -56,3 +56,5 @@ fastapi_mail
 PyMuPDF
 psycopg2
 alembic
+pypyodbc
+pyodbc
