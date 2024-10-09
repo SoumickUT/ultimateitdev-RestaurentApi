@@ -140,36 +140,67 @@
 # #     finally:
 # #         db.close()
 
-import pyodbc
+# import pyodbc
+# from sqlalchemy import create_engine
+# from sqlalchemy.ext.declarative import declarative_base
+# from sqlalchemy.orm import sessionmaker, scoped_session
+
+# # Database connection details
+# SERVER_NAME = "185.4.176.50,5672"
+# DATABASE_NAME = "Res_Halditest_Db"
+# USER = "Haldi_test_Db"
+# PASSWORD = "osEx9H99V(/M"
+
+# # Construct connection string for pyodbc
+# connection_string = f"""
+#     DRIVER={{ODBC Driver 17 for SQL Server}}; 
+#     SERVER={SERVER_NAME}; 
+#     DATABASE={DATABASE_NAME}; 
+#     UID={USER}; 
+#     PWD={PASSWORD};
+# """
+
+# # Establish the database connection using pyodbc
+# try:
+#     conn = pyodbc.connect(connection_string)
+#     print("Database connection successful")
+# except Exception as e:
+#     print("Database connection failed")
+#     print(e)
+
+# # Create SQLAlchemy engine
+# engine = create_engine(f'mssql+pyodbc://', creator=lambda: conn, echo=True)
+# SessionLocal = sessionmaker(bind=engine, autocommit=False, autoflush=False)
+# db_session = scoped_session(sessionmaker(bind=engine, autocommit=False, autoflush=False))
+
+# Base = declarative_base()
+# Base.query = db_session.query_property()
+
+# def get_db():
+#     db = SessionLocal()
+#     try:
+#         yield db
+#     finally:
+#         db.close()
+
+# # Example usage of SQLAlchemy engine
+# if __name__ == "__main__":
+#     # Perform database operations using engine
+#     with engine.connect() as connection:
+#         result = connection.execute("SELECT @@version;")
+#         print(result.scalar())  # Example query to test the connection
+
+
+
 from sqlalchemy import create_engine
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker, scoped_session
 
 # Database connection details
-SERVER_NAME = "185.4.176.50,5672"
-DATABASE_NAME = "Res_Halditest_Db"
-USER = "Haldi_test_Db"
-PASSWORD = "osEx9H99V(/M"
+DATABASE_NAME = "RestaurentDb.db"  # Specify your SQLite database file
 
-# Construct connection string for pyodbc
-connection_string = f"""
-    DRIVER={{ODBC Driver 17 for SQL Server}}; 
-    SERVER={SERVER_NAME}; 
-    DATABASE={DATABASE_NAME}; 
-    UID={USER}; 
-    PWD={PASSWORD};
-"""
-
-# Establish the database connection using pyodbc
-try:
-    conn = pyodbc.connect(connection_string)
-    print("Database connection successful")
-except Exception as e:
-    print("Database connection failed")
-    print(e)
-
-# Create SQLAlchemy engine
-engine = create_engine(f'mssql+pyodbc://', creator=lambda: conn, echo=True)
+# Create SQLAlchemy engine for SQLite
+engine = create_engine(f'sqlite:///{DATABASE_NAME}', echo=True)
 SessionLocal = sessionmaker(bind=engine, autocommit=False, autoflush=False)
 db_session = scoped_session(sessionmaker(bind=engine, autocommit=False, autoflush=False))
 
@@ -187,6 +218,6 @@ def get_db():
 if __name__ == "__main__":
     # Perform database operations using engine
     with engine.connect() as connection:
-        result = connection.execute("SELECT @@version;")
-        print(result.scalar())  # Example query to test the connection
-
+        # Example query to test the connection
+        result = connection.execute("SELECT sqlite_version();")
+        print(result.scalar())  # Print SQLite version to confirm the connection
