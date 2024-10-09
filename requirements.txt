@@ -54,7 +54,7 @@ uvicorn
 watchgod
 fastapi_mail
 PyMuPDF
-psycopg2
+psycopg2-binary
 alembic
 pypyodbc
 pyodbc
