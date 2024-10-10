@@ -54,24 +54,45 @@ setup_logging()
 ########################################
 
 
+# def get_all_menu(db: Session):
+#     # Use parameterized queries to prevent SQL injection
+#     query = text(f"""
+#         SELECT [MENU_ID]
+#               ,[MENU_NAME]
+#               ,[QUANTITY]
+#               ,[QUNIT]
+#               ,[PRICE]
+#               ,[UNIT]
+#               ,[CAT_ID]
+#               ,[SUB_ID]
+#               ,[NOTE]
+#               ,[ITEM_TYPE]
+#               ,[MenuCode]
+#               ,[IsVAT]
+#               ,[IsDiscount]
+#               ,[IsSupplimentary]
+#         FROM [Res_Halditest_Db].[dbo].[MENUITEM]
+#     """)
+
 def get_all_menu(db: Session):
     # Use parameterized queries to prevent SQL injection
-    query = text(f"""
-        SELECT [MENU_ID]
-              ,[MENU_NAME]
-              ,[QUANTITY]
-              ,[QUNIT]
-              ,[PRICE]
-              ,[UNIT]
-              ,[CAT_ID]
-              ,[SUB_ID]
-              ,[NOTE]
-              ,[ITEM_TYPE]
-              ,[MenuCode]
-              ,[IsVAT]
-              ,[IsDiscount]
-              ,[IsSupplimentary]
-        FROM [Res_Halditest_Db].[dbo].[MENUITEM]
+    query = text("""
+        SELECT 
+            MENU_ID,
+            MENU_NAME,
+            QUANTITY,
+            QUNIT,
+            PRICE,
+            UNIT,
+            CAT_ID,
+            SUB_ID,
+            NOTE,
+            ITEM_TYPE,
+            MenuCode,
+            IsVAT,
+            IsDiscount,
+            IsSupplimentary
+        FROM MENUITEM
     """)
     
     # Execute the query with parameter binding
@@ -103,25 +124,47 @@ def get_all_menu(db: Session):
     
     return menu_items
 
+# def get_menu(db: Session, CAT_ID: int, SUB_ID: int):
+#     # Use parameterized queries to prevent SQL injection
+#     query = text(f"""
+#         SELECT [MENU_ID]
+#               ,[MENU_NAME]
+#               ,[QUANTITY]
+#               ,[QUNIT]
+#               ,[PRICE]
+#               ,[UNIT]
+#               ,[CAT_ID]
+#               ,[SUB_ID]
+#               ,[NOTE]
+#               ,[ITEM_TYPE]
+#               ,[MenuCode]
+#               ,[IsVAT]
+#               ,[IsDiscount]
+#               ,[IsSupplimentary]
+#         FROM [Haldi].[dbo].[MENUITEM]
+#         WHERE [CAT_ID] = :cat_id AND [SUB_ID] = :sub_id;
+#     """)
+
 def get_menu(db: Session, CAT_ID: int, SUB_ID: int):
     # Use parameterized queries to prevent SQL injection
-    query = text(f"""
-        SELECT [MENU_ID]
-              ,[MENU_NAME]
-              ,[QUANTITY]
-              ,[QUNIT]
-              ,[PRICE]
-              ,[UNIT]
-              ,[CAT_ID]
-              ,[SUB_ID]
-              ,[NOTE]
-              ,[ITEM_TYPE]
-              ,[MenuCode]
-              ,[IsVAT]
-              ,[IsDiscount]
-              ,[IsSupplimentary]
-        FROM [Haldi].[dbo].[MENUITEM]
-        WHERE [CAT_ID] = :cat_id AND [SUB_ID] = :sub_id;
+    query = text("""
+        SELECT 
+            MENU_ID,
+            MENU_NAME,
+            QUANTITY,
+            QUNIT,
+            PRICE,
+            UNIT,
+            CAT_ID,
+            SUB_ID,
+            NOTE,
+            ITEM_TYPE,
+            MenuCode,
+            IsVAT,
+            IsDiscount,
+            IsSupplimentary
+        FROM MENUITEM
+        WHERE CAT_ID = :cat_id AND SUB_ID = :sub_id
     """)
     
     # Execute the query with parameter binding

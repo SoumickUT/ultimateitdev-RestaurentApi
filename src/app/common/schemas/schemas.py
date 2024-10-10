@@ -353,3 +353,175 @@ class UserInfoSchema(UserInfoBase):
 
     class Config:
         orm_mode = True
+        
+### Schemas for demo data#################
+
+from pydantic import BaseModel
+from datetime import datetime
+from typing import Optional, List
+
+# Schema for TempOrder
+class TempOrderCreate(BaseModel):
+    MEMO_NO: int
+    KOT_NO: int
+    TABLE_CODE: str
+    FOR_PERSONS: int
+    ORDER_TYPE: str
+    ATTENDANT: str
+    ORDER_DATE: datetime
+    START_TIME: str
+    SUBTOTAL: float
+    SALES_TAX: float
+    DISCOUNT_RATE: float
+    DISCOUNT_AMT: float
+    SERVICE_CHARGE: float
+    TOTAL_AMOUNT: float
+    CUS_NAME: str
+    DISC_TYPE: str
+    ITEM_DESC: int
+    BILL_PRINTED: int
+    STATUS: str
+    Waiter: str
+    ManualKot: int
+    Insert_Synced: bool
+    KotPrinted: bool
+    KotResubmitted: bool
+    ReKotPrinted: bool
+    CUS_ID: int
+    CUS_PHONE: str
+    SupplimetaryAmount: float
+    MachineName: str
+    Location: str
+    SCRate: float
+    VatRate: float
+
+# Schema for TempOrder2
+class TempOrder2Create(BaseModel):
+    KOT_NO: int
+    SLNO: int
+    MENU_ID: int
+    MENU_NAME: str
+    MENU_TYPE: int
+    QUANTITY: float
+    PRICE: float
+    AMOUNT: float
+    INCLUDEVAT: float
+    INCLUDESC: float
+    PromotionID: int
+    PromotionPercent: float
+    Cat_ID: int
+    Insert_Synced: bool
+    SupplimetaryAmt: float
+    TaxRate: int
+
+# Schema for CustomerInfo
+class CustomerInfoCreate(BaseModel):
+    CardNo: str
+    CUS_NAME: str
+    ADDRESS1: str
+    ADDRESS2: Optional[str]
+    OPENNING_BALANCE: float
+    PHONE_NO: str
+    MOBILE_NO: str
+    FAX_NO: Optional[str]
+    EMAIL_ID: Optional[str]
+    ParentID: int
+    LR: Optional[str]
+    CorporateAccID: int
+    AccId: int
+    SourceID: int
+
+# Schema for WaiterInfo
+class WaiterInfoCreate(BaseModel):
+    Name: str
+    Remarks: Optional[str]
+
+# Schema for SaleMaster
+class SaleMasterCreate(BaseModel):
+    MEMO_NO: int
+    FOR_PERSONS: int
+    SALE_TYPE: str
+    ORDER_DATE: datetime
+    SUBTOTAL: float
+    VAT: float
+    SERVICE_CHARGE: float
+    DISCOUNT_AMT: float
+    TOTAL_AMOUNT: float
+    PAID_AMOUNT: float
+    DUE_AMOUNT: float
+    PAYMENT_METHOD: str
+    PAYMENT_MEDIA: str
+    MACHINE_OF: str
+    VID: int
+    PAIDVID: int
+    CUS_ID: int
+    USERID: str
+    PRICE_PER: float
+    CARDVID: int
+    ID: int
+    TABLENO: str
+    WAITER: str
+    KOT_NO: int
+    EntryTime: datetime
+    ManualKOT: str
+    InsertType: str
+    SupplimetaryAmount: float
+    ComplementaryAmt: float
+    CusName: str
+
+# Schema for Promotion
+class PromotionCreate(BaseModel):
+    MenuID: int
+    DiscountPercent: float
+
+# Schema for Voucher
+class VoucherCreate(BaseModel):
+    VDate: datetime
+    VType: int
+    VNO: str
+    Posted: str  # Can be changed to bool if needed
+    UserId: str
+    Status: int
+    Particulars: str
+    Location: int
+    LastUpdated: datetime
+
+# Schema for MenuCategory
+class MenuCategoryCreate(BaseModel):
+    NAME: str
+
+# Schema for MenuItem
+class MenuItemCreate(BaseModel):
+    MENU_NAME: str
+    QUANTITY: float
+    QUNIT: str
+    PRICE: float
+    UNIT: str
+    CAT_ID: int
+    SUB_ID: int
+    NOTE: str
+    ITEM_TYPE: int
+    MenuCode: str
+    IsVAT: bool
+    IsDiscount: bool
+    IsSupplimentary: bool
+
+# Schema for SubCategory
+class SubCategoryCreate(BaseModel):
+    NAME: str
+    CAT_ID: int
+
+# Schema for UserInfo
+class UserInfoCreate(BaseModel):
+    UserName: str
+    FullName: str
+    SetPassword: str
+    UserType: str
+    Status: bool
+    BackdateEntry: bool
+
+# Schema for TableInfo
+class TableInfoCreate(BaseModel):
+    Name: str
+    tblType: str
+    tblStatus: str

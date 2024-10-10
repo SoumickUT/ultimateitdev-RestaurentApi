@@ -141,9 +141,17 @@ def read_temp_orders( db: Session = Depends(get_db)):
     temp_orders = main.get_temp_orders(db)
     return temp_orders
 
+# @router.get("/temp_order_1")
+# async def get_temp_order_1(db: Session = Depends(get_db)):
+#     query = text("SELECT * FROM [Res_Halditest_Db].[dbo].[TEMP_ORDER_1]")
+#     result = db.execute(query)
+#     columns = result.keys()
+#     data = [dict(zip(columns, row)) for row in result.fetchall()]
+#     return {"data": data}
+
 @router.get("/temp_order_1")
 async def get_temp_order_1(db: Session = Depends(get_db)):
-    query = text("SELECT * FROM [Res_Halditest_Db].[dbo].[TEMP_ORDER_1]")
+    query = text("SELECT * FROM TEMP_ORDER_1")
     result = db.execute(query)
     columns = result.keys()
     data = [dict(zip(columns, row)) for row in result.fetchall()]

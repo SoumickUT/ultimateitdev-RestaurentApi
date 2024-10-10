@@ -53,13 +53,23 @@ setup_logging()
 
 ########################################
 
+# def get_all_sub_menu(db: Session):
+#     # Use parameterized queries to prevent SQL injection
+#     query = text(f"""
+#       SELECT[SUB_ID]
+#       ,[NAME]
+#       ,[CAT_ID]
+#        FROM [Res_Halditest_Db].[dbo].[SUBCATEGORY]
+#     """)
+    
 def get_all_sub_menu(db: Session):
     # Use parameterized queries to prevent SQL injection
-    query = text(f"""
-      SELECT[SUB_ID]
-      ,[NAME]
-      ,[CAT_ID]
-       FROM [Res_Halditest_Db].[dbo].[SUBCATEGORY]
+    query = text("""
+      SELECT 
+        SUB_ID,
+        NAME,
+        CAT_ID
+      FROM SUBCATEGORY
     """)
     
     # Execute the query with parameter binding
@@ -82,14 +92,25 @@ def get_all_sub_menu(db: Session):
 
 
 
+# def get_sub_menu(db: Session, CAT_ID: int):
+#     # Use parameterized queries to prevent SQL injection
+#     query = text(f"""
+#       SELECT[SUB_ID]
+#       ,[NAME]
+#       ,[CAT_ID]
+#        FROM [Res_Halditest_Db].[dbo].[SUBCATEGORY]
+#         WHERE [CAT_ID] = :cat_id;
+#     """)
+    
 def get_sub_menu(db: Session, CAT_ID: int):
     # Use parameterized queries to prevent SQL injection
-    query = text(f"""
-      SELECT[SUB_ID]
-      ,[NAME]
-      ,[CAT_ID]
-       FROM [Res_Halditest_Db].[dbo].[SUBCATEGORY]
-        WHERE [CAT_ID] = :cat_id;
+    query = text("""
+      SELECT 
+        SUB_ID,
+        NAME,
+        CAT_ID
+      FROM SUBCATEGORY
+      WHERE CAT_ID = :cat_id
     """)
     
     # Execute the query with parameter binding

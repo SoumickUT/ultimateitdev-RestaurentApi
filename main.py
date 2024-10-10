@@ -14,6 +14,7 @@ from src.app.my_netowrk.WaiterInfo import waiterinfo
 from src.app.my_netowrk.MenuCategory import menucategory
 from src.app.my_netowrk.auth.swag_auth import oauth 
 from src.app.my_netowrk.Register import register 
+from src.app.my_netowrk.dummy_data import dummy
 from fastapi.middleware.cors import CORSMiddleware
 
 
@@ -37,6 +38,7 @@ get_db = database.get_db
 
 service_student_user_model.Base.metadata.create_all(engine)
 
+app.include_router(dummy.router)
 app.include_router(register.router)  
 app.include_router(oauth.router)  
 app.include_router(menucategory.router) 

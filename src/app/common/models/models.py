@@ -254,6 +254,14 @@ class UserInfo(Base):
     UserType = Column(String)
     Status = Column(Boolean)
     BackdateEntry = Column(Boolean)
+    
+class TableInfo(Base):
+    __tablename__ = 'TableInfo'
+    
+    Id = Column(Integer, primary_key=True)
+    Name = Column(String, nullable=False)
+    tblType = Column(String)
+    tblStatus = Column(String)
 
 
 

@@ -89,6 +89,7 @@ get_user_education          = '/my_profile/my_education/user'
 
 # MyRestaurents - My Profile - My Skill:
 skill_tag                   = 'MY Restaurants - Order Creating:'
+dummy_tag                   = 'MY Restaurants - Dummy Creating:'
 OrderSale_tag               = 'MY Restaurants - Order Sale:'
 create_user_skill           = '/my_profile/my_skill/create'
 get_all_user_skill          = '/my_profile/my_skill/get_all'

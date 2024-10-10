@@ -54,20 +54,34 @@ setup_logging()
 ########################################
 
 
+# def waiter_info(db: Session):
+#     # Use parameterized queries to prevent SQL injection
+#     query = text(f"""
+#      SELECT 
+#        [UserName]
+#       ,[FullName]
+#       ,[SetPassword]
+#       ,[UserType]
+#       ,[UserID]
+#       ,[Status]
+#       ,[BackdateEntry]
+#   FROM [Res_Halditest_Db].[dbo].[UserInfo]
+#     """)
+    
+    
 def waiter_info(db: Session):
     # Use parameterized queries to prevent SQL injection
-    query = text(f"""
-     SELECT 
-       [UserName]
-      ,[FullName]
-      ,[SetPassword]
-      ,[UserType]
-      ,[UserID]
-      ,[Status]
-      ,[BackdateEntry]
-  FROM [Res_Halditest_Db].[dbo].[UserInfo]
+    query = text("""
+      SELECT 
+        UserName,
+        FullName,
+        SetPassword,
+        UserType,
+        UserID,
+        Status,
+        BackdateEntry
+      FROM UserInfo
     """)
-    
     # Execute the query with parameter binding
     result = db.execute(query)
     

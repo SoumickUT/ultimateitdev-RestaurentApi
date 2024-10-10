@@ -58,15 +58,25 @@ setup_logging()
 
 
 
+# def get_menucategory(db: Session):
+#     # Use parameterized queries to prevent SQL injection
+#     query = text(f"""
+#       SELECT 
+#        [ID]
+#       ,[NAME]
+#       FROM [Res_Halditest_Db].[dbo].[MENUCATEGORY]
+
+#     """)
+
 def get_menucategory(db: Session):
     # Use parameterized queries to prevent SQL injection
-    query = text(f"""
+    query = text("""
       SELECT 
-       [ID]
-      ,[NAME]
-      FROM [Res_Halditest_Db].[dbo].[MENUCATEGORY]
-
+        ID,
+        NAME
+      FROM MENUCATEGORY
     """)
+    
     
     # Execute the query with parameter binding
     result = db.execute(query)

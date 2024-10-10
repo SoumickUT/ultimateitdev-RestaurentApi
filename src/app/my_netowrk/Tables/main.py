@@ -54,15 +54,27 @@ setup_logging()
 ########################################
 
 
+# def get_table(db: Session):
+#     # Use parameterized queries to prevent SQL injection
+#     query = text(f"""
+#       SELECT
+#        [Id]
+#       ,[Name]
+#       ,[tblType]
+#       ,[tblStatus]
+#   FROM [Res_Halditest_Db].[dbo].[TableInfo]
+#     """)
+    
+    
 def get_table(db: Session):
     # Use parameterized queries to prevent SQL injection
-    query = text(f"""
+    query = text("""
       SELECT
-       [Id]
-      ,[Name]
-      ,[tblType]
-      ,[tblStatus]
-  FROM [Res_Halditest_Db].[dbo].[TableInfo]
+        Id,
+        Name,
+        tblType,
+        tblStatus
+      FROM TableInfo
     """)
     
     # Execute the query with parameter binding
