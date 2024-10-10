@@ -236,33 +236,154 @@ def insert_dummy_data(db: Session):
         LastUpdated=datetime.utcnow()
     ))
 
-    # Insert MenuCategory
-    insert_menu_category(db, schemas.MenuCategoryCreate(
-        NAME="Burgers"
-    ))
+    # # Insert MenuCategory
+    # insert_menu_category(db, schemas.MenuCategoryCreate(
+    #     NAME="Burgers"
+    # ))
 
-    # Insert MenuItem
-    insert_menu_item(db, schemas.MenuItemCreate(
-        MENU_NAME="Cheeseburger",
-        QUANTITY=100,
-        QUNIT="pcs",
-        PRICE=12.50,
-        UNIT="pcs",
-        CAT_ID=1,
-        SUB_ID=1,
-        NOTE="Delicious cheeseburger",
-        ITEM_TYPE=1,
-        MenuCode="CB001",
-        IsVAT=True,
-        IsDiscount=False,
-        IsSupplimentary=False
-    ))
+    # # Insert MenuItem
+    # insert_menu_item(db, schemas.MenuItemCreate(
+    #     MENU_NAME="Cheeseburger",
+    #     QUANTITY=100,
+    #     QUNIT="pcs",
+    #     PRICE=12.50,
+    #     UNIT="pcs",
+    #     CAT_ID=1,
+    #     SUB_ID=1,
+    #     NOTE="Delicious cheeseburger",
+    #     ITEM_TYPE=1,
+    #     MenuCode="CB001",
+    #     IsVAT=True,
+    #     IsDiscount=False,
+    #     IsSupplimentary=False
+    # ))
 
-    # Insert SubCategory
-    insert_sub_category(db, schemas.SubCategoryCreate(
-        NAME="Burgers",
-        CAT_ID=1
-    ))
+    # # Insert SubCategory
+    # insert_sub_category(db, schemas.SubCategoryCreate(
+    #     NAME="Burgers",
+    #     CAT_ID=1
+    # ))
+
+
+    # Example of inserting multiple MenuCategories
+    # Insert multiple MenuCategories
+    categories = [
+        {"NAME": "Burgers"},
+        {"NAME": "Pizzas"},
+        {"NAME": "Salads"},
+        {"NAME": "Drinks"},
+        {"NAME": "Desserts"},
+        {"NAME": "Appetizers"},
+        {"NAME": "Main Courses"},
+        {"NAME": "Side Dishes"},
+        {"NAME": "Breakfast"},
+        {"NAME": "Snacks"},
+    ]
+
+    for category in categories:
+        insert_menu_category(db, schemas.MenuCategoryCreate(**category))
+
+    # Insert multiple SubCategories for the "Burgers" category
+    subcategories = [
+        {"NAME": "Beef Burgers", "CAT_ID": 1},
+        {"NAME": "Veggie Burgers", "CAT_ID": 1},
+        {"NAME": "Chicken Burgers", "CAT_ID": 1},
+        {"NAME": "Fish Burgers", "CAT_ID": 1},
+        {"NAME": "Spicy Burgers", "CAT_ID": 1},
+    ]
+
+    for subcategory in subcategories:
+        insert_sub_category(db, schemas.SubCategoryCreate(**subcategory))
+
+    # Insert multiple MenuItems for the "Burgers" category and subcategories
+    menu_items = [
+        {
+            "MENU_NAME": "Cheeseburger",
+            "QUANTITY": 100,
+            "QUNIT": "pcs",
+            "PRICE": 12.50,
+            "UNIT": "pcs",
+            "CAT_ID": 1,
+            "SUB_ID": 1,  # Beef Burgers
+            "NOTE": "Delicious cheeseburger",
+            "ITEM_TYPE": 1,
+            "MenuCode": "CB001",
+            "IsVAT": True,
+            "IsDiscount": False,
+            "IsSupplimentary": False
+        },
+        {
+            "MENU_NAME": "Veggie Burger",
+            "QUANTITY": 80,
+            "QUNIT": "pcs",
+            "PRICE": 10.00,
+            "UNIT": "pcs",
+            "CAT_ID": 1,
+            "SUB_ID": 2,  # Veggie Burgers
+            "NOTE": "Healthy veggie burger",
+            "ITEM_TYPE": 1,
+            "MenuCode": "VB001",
+            "IsVAT": True,
+            "IsDiscount": False,
+            "IsSupplimentary": False
+        },
+        {
+            "MENU_NAME": "Chicken Burger",
+            "QUANTITY": 60,
+            "QUNIT": "pcs",
+            "PRICE": 11.00,
+            "UNIT": "pcs",
+            "CAT_ID": 1,
+            "SUB_ID": 3,  # Chicken Burgers
+            "NOTE": "Juicy chicken burger",
+            "ITEM_TYPE": 1,
+            "MenuCode": "CBG001",
+            "IsVAT": True,
+            "IsDiscount": True,
+            "IsSupplimentary": False
+        },
+        {
+            "MENU_NAME": "Fish Burger",
+            "QUANTITY": 50,
+            "QUNIT": "pcs",
+            "PRICE": 12.00,
+            "UNIT": "pcs",
+            "CAT_ID": 1,
+            "SUB_ID": 4,  # Fish Burgers
+            "NOTE": "Fresh fish burger",
+            "ITEM_TYPE": 1,
+            "MenuCode": "FB001",
+            "IsVAT": True,
+            "IsDiscount": False,
+            "IsSupplimentary": False
+        },
+        {
+            "MENU_NAME": "Spicy Burger",
+            "QUANTITY": 70,
+            "QUNIT": "pcs",
+            "PRICE": 13.50,
+            "UNIT": "pcs",
+            "CAT_ID": 1,
+            "SUB_ID": 5,  # Spicy Burgers
+            "NOTE": "Extra spicy burger",
+            "ITEM_TYPE": 1,
+            "MenuCode": "SB001",
+            "IsVAT": True,
+            "IsDiscount": True,
+            "IsSupplimentary": False
+        },
+    ]
+
+    for item in menu_items:
+        insert_menu_item(db, schemas.MenuItemCreate(**item))
+    
+    # Insert 20 TableInfo records
+    for i in range(1, 21):
+        insert_table_info(db, schemas.TableInfoCreate(
+            Name=f"Table {i}",
+            tblType="Dining",
+            tblStatus=random.choice(["Available", "Occupied", "Reserved"])
+        ))
 
     # Insert UserInfo
     insert_user_info(db, schemas.UserInfoCreate(
@@ -274,9 +395,4 @@ def insert_dummy_data(db: Session):
         BackdateEntry=False
     ))
 
-    # Insert TableInfo
-    insert_table_info(db, schemas.TableInfoCreate(
-        Name="Table 1",
-        tblType="Dining",
-        tblStatus="Available"
-    ))
+
