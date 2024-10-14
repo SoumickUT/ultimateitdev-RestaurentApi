@@ -129,6 +129,68 @@ def create_order(order: schemas.OrderBase, db: Session = Depends(get_db)):
     return {"message": "Order created successfully"}
 
 
+# @router.post("/create_new_order/")
+# def create_order(order: schemas.NewOrderSchema, db: Session = Depends(get_db)):
+#     new_memo_no = get_new_memo_no(db)
+    
+#     # Create the main order
+#     db_order = models.TempOrder(
+#         MEMO_NO=new_memo_no,
+#         KOT_NO=order.KOT_NO,
+#         TABLE_CODE=order.TABLE_CODE,
+#         ORDER_TYPE=order.ORDER_TYPE,
+#         ORDER_DATE=order.ORDER_DATE,
+#         SUBTOTAL=order.SUBTOTAL,
+#         TOTAL_AMOUNT=order.TOTAL_AMOUNT,
+#         STATUS=order.STATUS,
+#         Waiter=order.Waiter
+#     )
+#     db.add(db_order)
+#     db.commit()
+#     db.refresh(db_order)
+
+#     # Create the order items
+#     order_items_response = []
+#     for item in order.orderItems:
+#         db_order_item = models.TempOrder2(
+#             KOT_NO=order.KOT_NO,
+#             MENU_ID=item.MENU_ID,
+#             MENU_NAME=item.MENU_NAME,
+#             MENU_TYPE=item.MENU_TYPE,
+#             QUANTITY=item.QUANTITY,
+#             PRICE=item.PRICE,
+#             AMOUNT=item.AMOUNT,
+#             Cat_ID=item.Cat_ID
+#         )
+#         db.add(db_order_item)
+#         # Add each order item to the response list
+#         order_items_response.append({
+#             "MENU_ID": item.MENU_ID,
+#             "MENU_NAME": item.MENU_NAME,
+#             "MENU_TYPE": item.MENU_TYPE,
+#             "QUANTITY": item.QUANTITY,
+#             "PRICE": item.PRICE,
+#             "AMOUNT": item.AMOUNT,
+#             "Cat_ID": item.Cat_ID
+#         })
+
+#     db.commit()
+
+#     # Build the response
+#     response = {
+#         "KOT_NO": db_order.KOT_NO,
+#         "TABLE_CODE": db_order.TABLE_CODE,
+#         "ORDER_TYPE": db_order.ORDER_TYPE,
+#         "ORDER_DATE": db_order.ORDER_DATE.isoformat(),
+#         "SUBTOTAL": db_order.SUBTOTAL,
+#         "TOTAL_AMOUNT": db_order.TOTAL_AMOUNT,
+#         "STATUS": db_order.STATUS,
+#         "Waiter": db_order.Waiter,
+#         "orderItems": order_items_response
+#     }
+
+#     return response
+
 @router.post("/create_new_order/")
 def create_order(order: schemas.NewOrderSchema, db: Session = Depends(get_db)):
     new_memo_no = get_new_memo_no(db)
@@ -173,6 +235,12 @@ def create_order(order: schemas.NewOrderSchema, db: Session = Depends(get_db)):
             "AMOUNT": item.AMOUNT,
             "Cat_ID": item.Cat_ID
         })
+
+    # Update the table status in TableInfo
+    table_info = db.query(models.TableInfo).filter(models.TableInfo.Name == order.TABLE_CODE).first()
+    if table_info:
+        table_info.tblStatus = 'Reserved'  # Or any relevant status like 'Occupied', 'Reserved', etc.
+        db.commit()
 
     db.commit()
 
