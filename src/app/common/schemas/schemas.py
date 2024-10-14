@@ -284,7 +284,37 @@ class OrderBase(BaseModel):
     customerInfo: List[CustomerInfoBase]
     # waiterInfo: List[WaiterInfoBase]
 
+# Pydantic model for an individual order item
+class NewOrderItem(BaseModel):
+    MENU_ID: int
+    MENU_NAME: str
+    MENU_TYPE: int
+    QUANTITY: float
+    PRICE: float
+    AMOUNT: float
+    Cat_ID: int
 
+# Pydantic model for customer information
+class NewCustomerInfo(BaseModel):
+    CUS_NAME: str
+    ADDRESS1: str
+    ADDRESS2: str
+    PHONE_NO: str
+    MOBILE_NO: str
+    EMAIL_ID: str
+
+# Pydantic model for the main order body
+class NewOrderSchema(BaseModel):
+    KOT_NO: int
+    TABLE_CODE: str
+    ORDER_TYPE: str
+    ORDER_DATE: datetime
+    SUBTOTAL: float
+    TOTAL_AMOUNT: float
+    STATUS: str
+    Waiter: str
+    orderItems: List[NewOrderItem]
+    customerInfo: List[NewCustomerInfo]
 
 class SaleMasterBase(BaseModel):
     MEMO_NO: Optional[int]
