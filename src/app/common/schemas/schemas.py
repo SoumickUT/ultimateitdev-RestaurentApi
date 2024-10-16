@@ -315,6 +315,19 @@ class NewOrderSchema(BaseModel):
     Waiter: str
     orderItems: List[NewOrderItem]
     customerInfo: List[NewCustomerInfo]
+    
+# Pydantic model for the main order body
+class UpdateNewOrderSchema(BaseModel):
+    KOT_NO: int
+    TABLE_CODE: str
+    ORDER_TYPE: str
+    ORDER_DATE: datetime
+    SUBTOTAL: float
+    TOTAL_AMOUNT: float
+    STATUS: str
+    Waiter: str
+    orderItems: List[NewOrderItem]
+    # customerInfo: List[NewCustomerInfo]
 
 class SaleMasterBase(BaseModel):
     MEMO_NO: Optional[int]

@@ -340,15 +340,106 @@ def get_order_by_kot_no(kot_no: str, db: Session = Depends(get_db)):
     return response
 
 
-@router.put("/update_order/{kot_no}")
-def update_order(kot_no: str, updated_order: schemas.NewOrderSchema, db: Session = Depends(get_db)):
-    # Retrieve the main order by KOT_NO
+# @router.put("/update_order/{kot_no}")
+# def update_order(kot_no: str, updated_order: schemas.UpdateNewOrderSchema, db: Session = Depends(get_db)):
+#     # Retrieve the main order by KOT_NO
+#     db_order = db.query(models.TempOrder).filter(models.TempOrder.KOT_NO == kot_no).first()
+    
+#     if not db_order:
+#         return {"error": "Order not found"}
+    
+#     # Update the main order fields
+#     db_order.TABLE_CODE = updated_order.TABLE_CODE
+#     db_order.ORDER_TYPE = updated_order.ORDER_TYPE
+#     db_order.ORDER_DATE = updated_order.ORDER_DATE
+#     db_order.SUBTOTAL = updated_order.SUBTOTAL
+#     db_order.TOTAL_AMOUNT = updated_order.TOTAL_AMOUNT
+#     db_order.STATUS = updated_order.STATUS
+#     db_order.Waiter = updated_order.Waiter
+
+#     db.commit()
+#     db.refresh(db_order)
+
+#     # Update or add new order items
+#     existing_items = db.query(models.TempOrder2).filter(models.TempOrder2.KOT_NO == kot_no).all()
+#     existing_items_dict = {item.MENU_ID: item for item in existing_items}
+
+#     updated_items_response = []
+#     for updated_item in updated_order.orderItems:
+#         if updated_item.MENU_ID in existing_items_dict:
+#             # Update existing item
+#             db_item = existing_items_dict[updated_item.MENU_ID]
+#             db_item.MENU_NAME = updated_item.MENU_NAME
+#             db_item.MENU_TYPE = updated_item.MENU_TYPE
+#             db_item.QUANTITY = updated_item.QUANTITY
+#             db_item.PRICE = updated_item.PRICE
+#             db_item.AMOUNT = updated_item.AMOUNT
+#             db_item.Cat_ID = updated_item.Cat_ID
+#         else:
+#             # Add new item
+#             db_item = models.TempOrder2(
+#                 KOT_NO=kot_no,
+#                 MENU_ID=updated_item.MENU_ID,
+#                 MENU_NAME=updated_item.MENU_NAME,
+#                 MENU_TYPE=updated_item.MENU_TYPE,
+#                 QUANTITY=updated_item.QUANTITY,
+#                 PRICE=updated_item.PRICE,
+#                 AMOUNT=updated_item.AMOUNT,
+#                 Cat_ID=updated_item.Cat_ID
+#             )
+#             db.add(db_item)
+        
+#         # Append to response
+#         updated_items_response.append({
+#             "MENU_ID": updated_item.MENU_ID,
+#             "MENU_NAME": updated_item.MENU_NAME,
+#             "MENU_TYPE": updated_item.MENU_TYPE,
+#             "QUANTITY": updated_item.QUANTITY,
+#             "PRICE": updated_item.PRICE,
+#             "AMOUNT": updated_item.AMOUNT,
+#             "Cat_ID": updated_item.Cat_ID
+#         })
+
+#     # Remove items that are no longer in the update request
+#     for existing_item in existing_items:
+#         if existing_item.MENU_ID not in {item.MENU_ID for item in updated_order.orderItems}:
+#             db.delete(existing_item)
+
+#     # Commit the changes for the order items
+#     db.commit()
+
+#     # Update the table status in TableInfo if needed
+#     table_info = db.query(models.TableInfo).filter(models.TableInfo.Name == updated_order.TABLE_CODE).first()
+#     if table_info:
+#         table_info.tblStatus = 'Reserved'  # Update status as needed
+#         db.commit()
+
+#     # Build the updated response
+#     response = {
+#         "KOT_NO": db_order.KOT_NO,
+#         "TABLE_CODE": db_order.TABLE_CODE,
+#         "ORDER_TYPE": db_order.ORDER_TYPE,
+#         "ORDER_DATE": db_order.ORDER_DATE.isoformat(),
+#         "SUBTOTAL": db_order.SUBTOTAL,
+#         "TOTAL_AMOUNT": db_order.TOTAL_AMOUNT,
+#         "STATUS": db_order.STATUS,
+#         "Waiter": db_order.Waiter,
+#         "orderItems": updated_items_response
+#     }
+
+#     return response
+
+@router.put("/update_order/{kot_no}/")
+def update_order(
+    kot_no: int, updated_order: schemas.UpdateNewOrderSchema, db: Session = Depends(get_db)
+):
+    # Fetch the existing order using KOT_NO
     db_order = db.query(models.TempOrder).filter(models.TempOrder.KOT_NO == kot_no).first()
-    
+
     if not db_order:
-        return {"error": "Order not found"}
-    
-    # Update the main order fields
+        raise HTTPException(status_code=404, detail="Order not found")
+
+    # Update the main order details
     db_order.TABLE_CODE = updated_order.TABLE_CODE
     db_order.ORDER_TYPE = updated_order.ORDER_TYPE
     db_order.ORDER_DATE = updated_order.ORDER_DATE
@@ -357,65 +448,30 @@ def update_order(kot_no: str, updated_order: schemas.NewOrderSchema, db: Session
     db_order.STATUS = updated_order.STATUS
     db_order.Waiter = updated_order.Waiter
 
+    # Remove existing order items related to the KOT_NO
+    db.query(models.TempOrder2).filter(models.TempOrder2.KOT_NO == kot_no).delete()
+
+    # Add the updated order items
+    for item in updated_order.orderItems:
+        new_order_item = models.TempOrder2(
+            KOT_NO=kot_no,
+            MENU_ID=item.MENU_ID,
+            MENU_NAME=item.MENU_NAME,
+            MENU_TYPE=item.MENU_TYPE,
+            QUANTITY=item.QUANTITY,
+            PRICE=item.PRICE,
+            AMOUNT=item.AMOUNT,
+            Cat_ID=item.Cat_ID,
+        )
+        db.add(new_order_item)
+
+    # Commit the changes to the database
     db.commit()
+
+    # Refresh to get the updated order
     db.refresh(db_order)
 
-    # Update or add new order items
-    existing_items = db.query(models.TempOrder2).filter(models.TempOrder2.KOT_NO == kot_no).all()
-    existing_items_dict = {item.MENU_ID: item for item in existing_items}
-
-    updated_items_response = []
-    for updated_item in updated_order.orderItems:
-        if updated_item.MENU_ID in existing_items_dict:
-            # Update existing item
-            db_item = existing_items_dict[updated_item.MENU_ID]
-            db_item.MENU_NAME = updated_item.MENU_NAME
-            db_item.MENU_TYPE = updated_item.MENU_TYPE
-            db_item.QUANTITY = updated_item.QUANTITY
-            db_item.PRICE = updated_item.PRICE
-            db_item.AMOUNT = updated_item.AMOUNT
-            db_item.Cat_ID = updated_item.Cat_ID
-        else:
-            # Add new item
-            db_item = models.TempOrder2(
-                KOT_NO=kot_no,
-                MENU_ID=updated_item.MENU_ID,
-                MENU_NAME=updated_item.MENU_NAME,
-                MENU_TYPE=updated_item.MENU_TYPE,
-                QUANTITY=updated_item.QUANTITY,
-                PRICE=updated_item.PRICE,
-                AMOUNT=updated_item.AMOUNT,
-                Cat_ID=updated_item.Cat_ID
-            )
-            db.add(db_item)
-        
-        # Append to response
-        updated_items_response.append({
-            "MENU_ID": updated_item.MENU_ID,
-            "MENU_NAME": updated_item.MENU_NAME,
-            "MENU_TYPE": updated_item.MENU_TYPE,
-            "QUANTITY": updated_item.QUANTITY,
-            "PRICE": updated_item.PRICE,
-            "AMOUNT": updated_item.AMOUNT,
-            "Cat_ID": updated_item.Cat_ID
-        })
-
-    # Remove items that are no longer in the update request
-    for existing_item in existing_items:
-        if existing_item.MENU_ID not in {item.MENU_ID for item in updated_order.orderItems}:
-            db.delete(existing_item)
-
-    # Commit the changes for the order items
-    db.commit()
-
-    # Update the table status in TableInfo if needed
-    table_info = db.query(models.TableInfo).filter(models.TableInfo.Name == updated_order.TABLE_CODE).first()
-    if table_info:
-        table_info.tblStatus = 'Reserved'  # Update status as needed
-        db.commit()
-
-    # Build the updated response
-    response = {
+    return {
         "KOT_NO": db_order.KOT_NO,
         "TABLE_CODE": db_order.TABLE_CODE,
         "ORDER_TYPE": db_order.ORDER_TYPE,
@@ -424,10 +480,9 @@ def update_order(kot_no: str, updated_order: schemas.NewOrderSchema, db: Session
         "TOTAL_AMOUNT": db_order.TOTAL_AMOUNT,
         "STATUS": db_order.STATUS,
         "Waiter": db_order.Waiter,
-        "orderItems": updated_items_response
+        "orderItems": updated_order.orderItems,
     }
 
-    return response
 
 
 @router.get("/temp_orders/{memo_no}", response_model=schemas.TempOrder)
