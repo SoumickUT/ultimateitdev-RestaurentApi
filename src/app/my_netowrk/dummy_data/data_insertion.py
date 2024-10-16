@@ -299,7 +299,7 @@ def insert_dummy_data(db: Session):
     menu_items = [
         {
             "MENU_NAME": "Cheeseburger",
-            "QUANTITY": 100,
+            "QUANTITY": 1,
             "QUNIT": "pcs",
             "PRICE": 12.50,
             "UNIT": "pcs",
@@ -314,7 +314,7 @@ def insert_dummy_data(db: Session):
         },
         {
             "MENU_NAME": "Veggie Burger",
-            "QUANTITY": 80,
+            "QUANTITY": 1,
             "QUNIT": "pcs",
             "PRICE": 10.00,
             "UNIT": "pcs",
@@ -329,7 +329,7 @@ def insert_dummy_data(db: Session):
         },
         {
             "MENU_NAME": "Chicken Burger",
-            "QUANTITY": 60,
+            "QUANTITY": 1,
             "QUNIT": "pcs",
             "PRICE": 11.00,
             "UNIT": "pcs",
@@ -344,7 +344,7 @@ def insert_dummy_data(db: Session):
         },
         {
             "MENU_NAME": "Fish Burger",
-            "QUANTITY": 50,
+            "QUANTITY": 1,
             "QUNIT": "pcs",
             "PRICE": 12.00,
             "UNIT": "pcs",
@@ -359,7 +359,7 @@ def insert_dummy_data(db: Session):
         },
         {
             "MENU_NAME": "Spicy Burger",
-            "QUANTITY": 70,
+            "QUANTITY": 1,
             "QUNIT": "pcs",
             "PRICE": 13.50,
             "UNIT": "pcs",
