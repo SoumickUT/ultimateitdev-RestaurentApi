@@ -284,95 +284,250 @@ def insert_dummy_data(db: Session):
         insert_menu_category(db, schemas.MenuCategoryCreate(**category))
 
     # Insert multiple SubCategories for the "Burgers" category
-    subcategories = [
-        {"NAME": "Beef Burgers", "CAT_ID": 1},
-        {"NAME": "Veggie Burgers", "CAT_ID": 1},
-        {"NAME": "Chicken Burgers", "CAT_ID": 1},
-        {"NAME": "Fish Burgers", "CAT_ID": 1},
-        {"NAME": "Spicy Burgers", "CAT_ID": 1},
-    ]
+    # subcategories = [
+    #     {"NAME": "Beef Burgers", "CAT_ID": 1},
+    #     {"NAME": "Veggie Burgers", "CAT_ID": 1},
+    #     {"NAME": "Chicken Burgers", "CAT_ID": 1},
+    #     {"NAME": "Fish Burgers", "CAT_ID": 1},
+    #     {"NAME": "Spicy Burgers", "CAT_ID": 1},
+    # ]
+    
+    subcategories =[
+    {
+        "NAME": "Beef Burgers",
+        "CAT_ID": 1
+    },
+    {
+        "NAME": "Veggie Burgers",
+        "CAT_ID": 1
+    },
+    {
+        "NAME": "Chicken Burgers",
+        "CAT_ID": 1
+    },
+    {
+        "NAME": "Fish Burgers",
+        "CAT_ID": 1
+    },
+    {
+        "NAME": "Spicy Burgers",
+        "CAT_ID": 1
+    },
+    {
+        "NAME": "Margherita Pizza",
+        "CAT_ID": 2
+    },
+    {
+        "NAME": "Pepperoni Pizza",
+        "CAT_ID": 2
+    },
+    {
+        "NAME": "BBQ Chicken Pizza",
+        "CAT_ID": 2
+    },
+    {
+        "NAME": "Veggie Pizza",
+        "CAT_ID": 2
+    },
+    {
+        "NAME": "Hawaiian Pizza",
+        "CAT_ID": 2
+    },
+    {
+        "NAME": "Caesar Salad",
+        "CAT_ID": 3
+    },
+    {
+        "NAME": "Greek Salad",
+        "CAT_ID": 3
+    },
+    {
+        "NAME": "Cobb Salad",
+        "CAT_ID": 3
+    },
+    {
+        "NAME": "Garden Salad",
+        "CAT_ID": 3
+    },
+    {
+        "NAME": "Pasta Salad",
+        "CAT_ID": 3
+    }
+]
+
 
     for subcategory in subcategories:
         insert_sub_category(db, schemas.SubCategoryCreate(**subcategory))
 
     # Insert multiple MenuItems for the "Burgers" category and subcategories
     menu_items = [
-        {
-            "MENU_NAME": "Cheeseburger",
-            "QUANTITY": 1,
-            "QUNIT": "pcs",
-            "PRICE": 12.50,
-            "UNIT": "pcs",
-            "CAT_ID": 1,
-            "SUB_ID": 1,  # Beef Burgers
-            "NOTE": "Delicious cheeseburger",
-            "ITEM_TYPE": 1,
-            "MenuCode": "CB001",
-            "IsVAT": True,
-            "IsDiscount": False,
-            "IsSupplimentary": False
-        },
-        {
-            "MENU_NAME": "Veggie Burger",
-            "QUANTITY": 1,
-            "QUNIT": "pcs",
-            "PRICE": 10.00,
-            "UNIT": "pcs",
-            "CAT_ID": 1,
-            "SUB_ID": 2,  # Veggie Burgers
-            "NOTE": "Healthy veggie burger",
-            "ITEM_TYPE": 1,
-            "MenuCode": "VB001",
-            "IsVAT": True,
-            "IsDiscount": False,
-            "IsSupplimentary": False
-        },
-        {
-            "MENU_NAME": "Chicken Burger",
-            "QUANTITY": 1,
-            "QUNIT": "pcs",
-            "PRICE": 11.00,
-            "UNIT": "pcs",
-            "CAT_ID": 1,
-            "SUB_ID": 3,  # Chicken Burgers
-            "NOTE": "Juicy chicken burger",
-            "ITEM_TYPE": 1,
-            "MenuCode": "CBG001",
-            "IsVAT": True,
-            "IsDiscount": True,
-            "IsSupplimentary": False
-        },
-        {
-            "MENU_NAME": "Fish Burger",
-            "QUANTITY": 1,
-            "QUNIT": "pcs",
-            "PRICE": 12.00,
-            "UNIT": "pcs",
-            "CAT_ID": 1,
-            "SUB_ID": 4,  # Fish Burgers
-            "NOTE": "Fresh fish burger",
-            "ITEM_TYPE": 1,
-            "MenuCode": "FB001",
-            "IsVAT": True,
-            "IsDiscount": False,
-            "IsSupplimentary": False
-        },
-        {
-            "MENU_NAME": "Spicy Burger",
-            "QUANTITY": 1,
-            "QUNIT": "pcs",
-            "PRICE": 13.50,
-            "UNIT": "pcs",
-            "CAT_ID": 1,
-            "SUB_ID": 5,  # Spicy Burgers
-            "NOTE": "Extra spicy burger",
-            "ITEM_TYPE": 1,
-            "MenuCode": "SB001",
-            "IsVAT": True,
-            "IsDiscount": True,
-            "IsSupplimentary": False
-        },
-    ]
+    {
+        "MENU_NAME": "Cheeseburger",
+        "QUANTITY": 1,
+        "QUNIT": "pcs",
+        "PRICE": 12.50,
+        "UNIT": "pcs",
+        "CAT_ID": 1,
+        "SUB_ID": 1,
+        "NOTE": "Delicious cheeseburger",
+        "ITEM_TYPE": 1,
+        "MenuCode": "CB001",
+        "IsVAT": True,
+        "IsDiscount": False,
+        "IsSupplimentary": False
+    },
+    {
+        "MENU_NAME": "Veggie Burger",
+        "QUANTITY": 1,
+        "QUNIT": "pcs",
+        "PRICE": 10.00,
+        "UNIT": "pcs",
+        "CAT_ID": 1,
+        "SUB_ID": 2,
+        "NOTE": "Healthy veggie burger",
+        "ITEM_TYPE": 1,
+        "MenuCode": "VB001",
+        "IsVAT": True,
+        "IsDiscount": False,
+        "IsSupplimentary": False
+    },
+    {
+        "MENU_NAME": "Chicken Burger",
+        "QUANTITY": 1,
+        "QUNIT": "pcs",
+        "PRICE": 11.00,
+        "UNIT": "pcs",
+        "CAT_ID": 1,
+        "SUB_ID": 3,
+        "NOTE": "Juicy chicken burger",
+        "ITEM_TYPE": 1,
+        "MenuCode": "CBG001",
+        "IsVAT": True,
+        "IsDiscount": True,
+        "IsSupplimentary": False
+    },
+    {
+        "MENU_NAME": "Fish Burger",
+        "QUANTITY": 1,
+        "QUNIT": "pcs",
+        "PRICE": 12.00,
+        "UNIT": "pcs",
+        "CAT_ID": 1,
+        "SUB_ID": 4,
+        "NOTE": "Fresh fish burger",
+        "ITEM_TYPE": 1,
+        "MenuCode": "FB001",
+        "IsVAT": True,
+        "IsDiscount": False,
+        "IsSupplimentary": False
+    },
+    {
+        "MENU_NAME": "Spicy Burger",
+        "QUANTITY": 1,
+        "QUNIT": "pcs",
+        "PRICE": 13.50,
+        "UNIT": "pcs",
+        "CAT_ID": 1,
+        "SUB_ID": 5,
+        "NOTE": "Extra spicy burger",
+        "ITEM_TYPE": 1,
+        "MenuCode": "SB001",
+        "IsVAT": True,
+        "IsDiscount": True,
+        "IsSupplimentary": False
+    },
+    {
+        "MENU_NAME": "Margherita Pizza",
+        "QUANTITY": 1,
+        "QUNIT": "pcs",
+        "PRICE": 15.00,
+        "UNIT": "pcs",
+        "CAT_ID": 2,
+        "SUB_ID": 1,
+        "NOTE": "Classic Margherita pizza",
+        "ITEM_TYPE": 1,
+        "MenuCode": "PZ001",
+        "IsVAT": True,
+        "IsDiscount": False,
+        "IsSupplimentary": False
+    },
+    {
+        "MENU_NAME": "Pepperoni Pizza",
+        "QUANTITY": 1,
+        "QUNIT": "pcs",
+        "PRICE": 18.00,
+        "UNIT": "pcs",
+        "CAT_ID": 2,
+        "SUB_ID": 2,
+        "NOTE": "Loaded with pepperoni",
+        "ITEM_TYPE": 1,
+        "MenuCode": "PZ002",
+        "IsVAT": True,
+        "IsDiscount": True,
+        "IsSupplimentary": False
+    },
+    {
+        "MENU_NAME": "BBQ Chicken Pizza",
+        "QUANTITY": 1,
+        "QUNIT": "pcs",
+        "PRICE": 20.00,
+        "UNIT": "pcs",
+        "CAT_ID": 2,
+        "SUB_ID": 3,
+        "NOTE": "Topped with BBQ chicken",
+        "ITEM_TYPE": 1,
+        "MenuCode": "PZ003",
+        "IsVAT": True,
+        "IsDiscount": True,
+        "IsSupplimentary": False
+    },
+    {
+        "MENU_NAME": "Caesar Salad",
+        "QUANTITY": 1,
+        "QUNIT": "bowl",
+        "PRICE": 9.00,
+        "UNIT": "bowl",
+        "CAT_ID": 3,
+        "SUB_ID": 1,
+        "NOTE": "Classic Caesar salad",
+        "ITEM_TYPE": 1,
+        "MenuCode": "SL001",
+        "IsVAT": True,
+        "IsDiscount": False,
+        "IsSupplimentary": False
+    },
+    {
+        "MENU_NAME": "Greek Salad",
+        "QUANTITY": 1,
+        "QUNIT": "bowl",
+        "PRICE": 10.00,
+        "UNIT": "bowl",
+        "CAT_ID": 3,
+        "SUB_ID": 2,
+        "NOTE": "Greek-style salad with feta",
+        "ITEM_TYPE": 1,
+        "MenuCode": "SL002",
+        "IsVAT": True,
+        "IsDiscount": True,
+        "IsSupplimentary": False
+    },
+    {
+        "MENU_NAME": "Garden Salad",
+        "QUANTITY": 1,
+        "QUNIT": "bowl",
+        "PRICE": 8.50,
+        "UNIT": "bowl",
+        "CAT_ID": 3,
+        "SUB_ID": 3,
+        "NOTE": "Fresh garden salad",
+        "ITEM_TYPE": 1,
+        "MenuCode": "SL003",
+        "IsVAT": True,
+        "IsDiscount": False,
+        "IsSupplimentary": False
+    }
+]
+
 
     for item in menu_items:
         insert_menu_item(db, schemas.MenuItemCreate(**item))
