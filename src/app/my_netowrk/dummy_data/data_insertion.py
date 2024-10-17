@@ -533,7 +533,7 @@ def insert_dummy_data(db: Session):
         insert_menu_item(db, schemas.MenuItemCreate(**item))
     
     # Insert 20 TableInfo records
-    for i in range(1, 50):
+    for i in range(1, 60):
         insert_table_info(db, schemas.TableInfoCreate(
             Name=f"Table {i}",
             tblType="Dining",
